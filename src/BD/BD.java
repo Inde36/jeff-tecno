@@ -4,17 +4,18 @@ import functions.producto;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class BD {
 
     public static BD instance = null;
     private static Connection connect = null;
-
     private BD(){
+
         String url ="jdbc:mysql://localhost/apptecno?serverTimezone=UTC";
         String driver = "com.mysql.cj.jdbc.Driver";
         String user = "&user=root";
-        getStringsBD(url,driver,user);
+
     }
     public static Connection getConnect(){
         if (connect == null){
@@ -24,8 +25,11 @@ public class BD {
         return connect ;
     }
 
-    public static void getStringsBD(String url, String driver, String user){
-        producto p1 = new producto();
+    public static List<producto> getListaBD(){
+        List<producto> listaProducto = new ArrayList<>();
+        String url ="jdbc:mysql://localhost/apptecno?serverTimezone=UTC";
+        String driver = "com.mysql.cj.jdbc.Driver";
+        String user = "&user=root";
         try{
 
 
@@ -37,24 +41,14 @@ public class BD {
             ResultSet rs = stmt.executeQuery("SELECT * FROM producto");
 
             while ( rs.next() ) {
-
-                String nombre = rs.getString("nombre");
-                float precio = rs.getFloat("precio");
-                int id = rs.getInt("id");
-                String marca = rs.getString("marca");
-                int gigabytes = rs.getInt("gigabytes");
-               // System.out.println("-----------------");
-
-                producto p2 = new producto(nombre, id, precio, marca, gigabytes);
-                p1.rellenarLista(p2);
-
-
-
+                producto p = new producto(rs.getString("nombre"),rs.getInt("id"),rs.getFloat("precio"),rs.getString("marca"),rs.getInt("gigabytes"));
+                listaProducto.add(p);
             }
             connect.close();
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
+        return listaProducto;
     }
 
 

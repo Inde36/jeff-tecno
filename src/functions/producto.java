@@ -11,7 +11,6 @@ public class producto {
     public float precio = 0;
     public String marca = "";
     public int gigabytes = 0;
-    public ArrayList<producto> ListaProductos = new ArrayList<producto>();
     public producto(String nombre, int id, float precio, String marca, int gigabytes) {
         this.nombre = nombre;
         this.id = id;
@@ -62,17 +61,6 @@ public class producto {
     public void setGigabytes(int gigabytes) {
         this.gigabytes = gigabytes;
     }
-    public void rellenarLista (producto p){
 
-        this.ListaProductos.add(p);
-    }
 
-    public String toString(){
-        String visualizarProducto="";
-        Iterator it=ListaProductos.iterator();
-        while (it.hasNext()){
-            visualizarProducto=visualizarProducto+","+it.next();
-        }
-        return visualizarProducto;
-    }
 }
