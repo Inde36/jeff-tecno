@@ -1,5 +1,6 @@
 package BD;
 
+import functions.Localizacion;
 import functions.Pedido;
 import functions.producto;
 
@@ -71,7 +72,7 @@ public class BD {
                     .prepareStatement("SELECT * FROM pedido where nombre_user = ?");
             preparedStatement.setString(1, nombre_user);
             ResultSet rs = preparedStatement.executeQuery();
-            rs.getFetchSize();
+
 
 
                 while ( rs.next() ) {
@@ -87,6 +88,34 @@ public class BD {
             e.printStackTrace();
         }
         return listaPedido;
+    }
+    public static List<Localizacion>getEnvio(String ciudad){
+        List<Localizacion> listaLocal = new ArrayList<>();
+        String url ="jdbc:mysql://localhost/apptecno?serverTimezone=UTC";
+        String driver = "com.mysql.cj.jdbc.Driver";
+        String user = "&user=root";
+        try{
+
+
+            Class.forName(driver);
+            connect = DriverManager.getConnection(url + user );
+
+            PreparedStatement preparedStatement ;
+
+            preparedStatement = connect
+                    .prepareStatement("SELECT * FROM localizacion where nombre = ?");
+            preparedStatement.setString(1, ciudad);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while ( rs.next() ) {
+                Localizacion l = new Localizacion(rs.getString("nombre"), rs.getInt("tiempo_envio"));
+               listaLocal.add(l);
+            }
+            connect.close();
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+        return listaLocal;
     }
     public static List<producto> getListaBD(){
         List<producto> listaProducto = new ArrayList<>();

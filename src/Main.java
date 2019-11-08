@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
+import functions.Localizacion;
 import functions.Pedido;
 import functions.compraProducto;
 import functions.producto;
@@ -34,7 +36,9 @@ public class Main {
                 case 2:
                     int productoComprar = 0;
                     String nombre = "";
+                    String ciudad = "";
                     List<producto> listap = BD.getListaBD();
+
                     for (int i = 0; i < listap.size() ; i++) {
                         System.out.println(listap.get(i).getId() + " - "+listap.get(i).getNombre() + listap.get(i).getPrecio()+"€");
                     }
@@ -42,14 +46,35 @@ public class Main {
 
                     productoComprar = sc.nextInt();
                     sc.nextLine();
-                    System.out.println("A que nombre va a ir el paquete?");
-                    nombre = sc.nextLine();
-                    BD.postPedido(nombre);
+                    if (productoComprar < listap.size()) {
+                        System.out.println("A que nombre va a ir el paquete?");
+                        nombre = sc.nextLine();
 
-                    System.out.println("Gracias por su compra");
+                        System.out.println("A que ciudad va a ir el paquete?");
+                        ciudad = sc.nextLine();
+                        List<Localizacion> listalocal = BD.getEnvio(ciudad);
+                        if (listalocal.size() != 0) {
+                            for (int i = 0; i < listalocal.size(); i++) {
+                                if (listalocal.get(i).getNombre().toLowerCase().equals(ciudad.toLowerCase())) {
+                                    BD.postPedido(nombre);
+                                    System.out.println("Calculamos que tu pedido tardara unos " + listalocal.get(i).getTiempo_envio() + " dias");
+                                    System.out.println("Gracias por su compra");
+                                } else {
+                                    System.out.println("No operamos en esa ciudad");
+                                }
+                            }
+                        } else {
+                            System.out.println("No operamos en esa ciudad");
+                        }
+                    }else{
+                        System.out.println("No sabemos que producto quieres");
+                    }
+
+
                     break;
 
                 case 3:
+
                         sc.nextLine();
                     String nombre_user = "";
                     System.out.println("Cual es tu nombre?");
