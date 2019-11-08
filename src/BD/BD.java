@@ -14,7 +14,17 @@ public class BD {
         String url ="jdbc:mysql://localhost/apptecno?serverTimezone=UTC";
         String driver = "com.mysql.cj.jdbc.Driver";
         String user = "&user=root";
-        //ArrayList<producto> productos = new ArrayList<producto>();
+        getStringsBD(url,driver,user);
+    }
+    public static Connection getConnect(){
+        if (connect == null){
+
+            new BD();
+        }
+        return connect ;
+    }
+
+    public static void getStringsBD(String url, String driver, String user){
         producto p1 = new producto();
         try{
 
@@ -33,7 +43,7 @@ public class BD {
                 int id = rs.getInt("id");
                 String marca = rs.getString("marca");
                 int gigabytes = rs.getInt("gigabytes");
-                System.out.println("-----------------");
+               // System.out.println("-----------------");
 
                 producto p2 = new producto(nombre, id, precio, marca, gigabytes);
                 p1.rellenarLista(p2);
@@ -45,13 +55,6 @@ public class BD {
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
-    }
-    public static Connection getConnect(){
-        if (connect == null){
-
-            new BD();
-        }
-        return connect ;
     }
 
 
