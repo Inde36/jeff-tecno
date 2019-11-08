@@ -1,6 +1,9 @@
 package BD;
 
+import functions.producto;
+
 import java.sql.*;
+import java.util.ArrayList;
 
 public class BD {
 
@@ -11,7 +14,8 @@ public class BD {
         String url ="jdbc:mysql://localhost/apptecno?serverTimezone=UTC";
         String driver = "com.mysql.cj.jdbc.Driver";
         String user = "&user=root";
-
+        //ArrayList<producto> productos = new ArrayList<producto>();
+        producto p1 = new producto();
         try{
 
 
@@ -23,11 +27,19 @@ public class BD {
             ResultSet rs = stmt.executeQuery("SELECT * FROM producto");
 
             while ( rs.next() ) {
+
                 String nombre = rs.getString("nombre");
                 float precio = rs.getFloat("precio");
                 int id = rs.getInt("id");
+                String marca = rs.getString("marca");
+                int gigabytes = rs.getInt("gigabytes");
                 System.out.println("-----------------");
-                System.out.println(id+ ": " +nombre+" con un precio de: " +precio+"€");
+
+                producto p2 = new producto(nombre, id, precio, marca, gigabytes);
+                p1.rellenarLista(p2);
+
+
+
             }
             connect.close();
         } catch (ClassNotFoundException | SQLException e) {
@@ -39,6 +51,8 @@ public class BD {
 
             new BD();
         }
-        return connect;
+        return connect ;
     }
+
+
 }

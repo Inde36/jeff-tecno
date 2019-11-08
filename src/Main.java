@@ -1,13 +1,14 @@
 import BD.BD;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.Scanner;
-
+import functions.producto;
 public class Main {
 
     public static void main(String[] args) {
         int opcion = 0;
-
+        producto p = new producto();
         do {
             System.out.println("Hola, Bienvienido a Jeff-Techno");
             System.out.println("¿Que quieres hacer hoy?");
@@ -29,8 +30,12 @@ public class Main {
                 case 2:
                     int productoComprar = 0;
                     Connection conn1 = BD.getConnect();
+                    System.out.println(p.toString());
                     System.out.println("Que producto quieres comprar?");
+
                     productoComprar = sc.nextInt();
+
+
 
 
             }
